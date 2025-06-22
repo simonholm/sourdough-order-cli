@@ -1,10 +1,17 @@
-use std::fs::{self, OpenOptions}; use std::io::Write; use std::path::Path;
+use std::env; use std::fs::{self, OpenOptions}; use std::io::Write; use std::path::Path;
 
-use chrono::NaiveDate; use dialoguer::{Input, MultiSelect}; use serde::{Deserialize, Serialize}; use uuid::Uuid;
+use chrono::{Datelike, Local, NaiveDate}; use dialoguer::{Input, MultiSelect}; use serde::{Deserialize, Serialize}; use uuid::Uuid;
 
 #[derive(Serialize, Deserialize, Debug)] struct Order { id: String, name: String, phone: String, items: Vec<String>, pickup_date: String, status: String, }
 
-fn main() { println!("🥖 Welcome to Sourdough Order CLI - Add New Order\n");
+fn main() { let args: Vec<String> = env::args().collect();
+
+if args.len() > 1 && args[1] == "list-today" {
+    list_today();
+    return;
+}
+
+println!("\n🥖 Sourdough Order CLI v0.1.0 - Add New Order\n");
 
 let name: String = Input::new()
     .with_prompt("Customer name")
@@ -23,6 +30,8 @@ let items = vec![
     ("Kanelbulle", "kanelbulle"),
     ("Kardemummabulle", "kardemumma"),
 ];
+
+println!("(Use ↑/↓ to move, Space to select, Enter to confirm)\n");
 
 let item_names: Vec<&str> = items.iter().map(|(name, _)| *name).collect();
 let selections = MultiSelect::new()
@@ -57,7 +66,7 @@ let order = Order {
     status: "pending".to_string(),
 };
 
-let path = Path::new("orders.json");
+let path = Path::new("src/orders.json");
 let mut orders: Vec<Order> = if path.exists() {
     let data = fs::read_to_string(path).unwrap_or_else(|_| "[]".to_string());
     serde_json::from_str(&data).unwrap_or_else(|_| vec![])
@@ -77,6 +86,30 @@ let mut file = OpenOptions::new()
 file.write_all(json.as_bytes()).unwrap();
 
 println!("\n✅ Order saved to orders.json");
+
+}
+
+fn list_today() { let path = Path::new("src/orders.json"); if !path.exists() { println!("No orders.json file found."); return; }
+
+let data = fs::read_to_string(path).unwrap_or_else(|_| "[]".to_string());
+let orders: Vec<Order> = serde_json::from_str(&data).unwrap_or_else(|_| vec![]);
+
+let today = Local::now().date_naive();
+let mut found = false;
+
+println!("\n📋 Orders for {}:\n", today);
+for order in orders {
+    if let Ok(date) = NaiveDate::parse_from_str(&order.pickup_date, "%Y-%m-%d") {
+        if date == today {
+            found = true;
+            println!("- {}: {} ({})", order.name, order.items.join(", "), order.phone);
+        }
+    }
+}
+
+if !found {
+    println!("No orders found for today.");
+}
 
 }
 
