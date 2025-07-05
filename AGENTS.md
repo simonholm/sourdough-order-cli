@@ -1,57 +1,62 @@
-# DEV_NOTES.md – sourdough-order-cli
+# AGENTS.md — Codex Agent Instructions for `sourdough-order-cli`
 
-This file documents the current state of the project, what’s been prototyped, and what’s coming next.
-
----
-
-## 🧠 Project Summary
-
-A Rust-based command-line and (future) web interface for managing sourdough bread orders.  
-The system should:  
-- Let customers order via a mobile-friendly UI (linkable from Instagram)  
-- Let the artisan view and print pickup lists  
-- Store orders as JSON (or SQLite later)  
-- Share menu/order logic across CLI and web UI  
+These instructions guide the behavior of Codex Agent when operating on this repository.
 
 ---
 
-## 📁 Key Structure
+## 🎯 Scope and Purpose
 
-| Path                    | Purpose                              |
-|-------------------------|--------------------------------------|
-| `src/main.rs`           | CLI entry point (routing TBD)        |
-| `src/sms.rs`            | SMS integration                      |
-| `scratchpad/menu.rs`    | Static menu, returns (name, id)      |
-| `scratchpad/order.rs`   | `Order` struct + save/load logic     |
-| `docs/`                 | User stories, requirements           |
-| `meta/`                 | Formatting tips, Codex checklist     |
-| `orders.json`           | Possibly sample or legacy format     |
+This project implements a CLI and (future) web UI for managing sourdough bread orders in Rust.  
+Codex Agent may assist with:
 
----
-
-## 🧪 Scratchpad Use
-
-`scratchpad/` holds experimental or reusable modules that aren’t yet wired into the app.  
-This includes:
-- Menu system  
-- Order file logic  
-
-Once stable, they will be moved into `src/`.
+- CLI interface scaffolding (using `clap`)
+- Data handling via JSON or files
+- Web form backend (`axum`, `askama`, `serde`)
+- Tests for modules (`menu`, `order`, etc.)
+- Input sanitization, validation, or menu formatting
 
 ---
 
-## 🛠️ Next Options
+## 📦 Directory Rules
 
-1. 🧪 Test modules via `test_menu.rs`, `test_order.rs`  
-2. 🧭 Create `src/cli.rs` using `clap`, link to `menu` + `order`  
-3. 🌐 Start `src/web.rs` using `axum` + `askama`  
-4. 🔗 Connect everything via `main.rs`  
-5. 🧾 Write `AGENTS.md` for Codex task guidance  
+| Directory         | Purpose                                        | Agent Permission |
+|-------------------|------------------------------------------------|------------------|
+| `src/`            | Production CLI and backend logic               | ✅ Modify/add     |
+| `scratchpad/`     | Staging area for modules and ideas             | ⚠️ Modify *only* if instructed |
+| `docs/`           | Formal requirements and acceptance tests       | 🛑 Do not modify  |
+| `meta/`           | Formatting tips and Codex prompts              | 🛑 Do not modify  |
+| `orders/`         | Finalized order outputs                        | ✅ Can write/read |
+| `orders.json`     | Legacy sample                                  | ⚠️ Read-only      |
 
 ---
 
-## 🧩 Codex Agent Notes (if used)
+## 🧠 Behavior Rules
 
-- Should not modify scratchpad directly unless told  
-- Must use Rust only (no Flask or JS)  
-- Must write to `orders/YYYY-MM-DD.json`
+- Do **not** overwrite or remove scratchpad files unless explicitly instructed
+- Prefer small commits and semantic PR titles (e.g. `feat(cli): add print-menu command`)
+- Output changes in human-readable Markdown diffs or commit-ready code
+- Include helpful comments if code touches anything non-obvious
+- Avoid Flask, JavaScript, or Python-based web suggestions — this is a **Rust-only project**
+
+---
+
+## 🧪 Validation & Tests
+
+- New modules must compile with `cargo build`
+- Menu modules must return Vec<(name, slug)>
+- Order modules must save/load consistent JSON
+- CLI and web must default to Saturday pickup unless otherwise configured
+
+---
+
+## 📌 Codex Commit Conventions
+
+When submitting PRs, Codex Agent should:
+
+- Reference the original intent (e.g. *“Implements part of task X from DEV_NOTES.md”*)
+- Mention whether tests were added (if applicable)
+- Avoid “big bang” changes unless clearly validated
+
+---
+
+
