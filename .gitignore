@@ -2,3 +2,7 @@
 orders.json
 .env
 .env
+
+# Local files
+.env.example.bak
+demo*.json
