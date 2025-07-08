@@ -21,3 +21,7 @@ Built for micro-bakeries that need simple, local, and fast communication with cu
 ```bash
 git clone https://github.com/simonholm/sourdough-order-cli.git
 cd sourdough-order-cli
+
+
+> 🧠 Agent Users: See `AGENTS.md` for Codex/Claude instructions
+> 🧰 Devs: See `DEV_NOTES.md` for structure overview and scratchpad usage
