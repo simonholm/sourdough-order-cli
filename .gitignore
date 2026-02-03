@@ -6,3 +6,4 @@ orders.json
 # Local files
 .env.example.bak
 demo*.json
+target/
