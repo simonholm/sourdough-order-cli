@@ -29,11 +29,11 @@ async fn main() {
         .route("/artisan", get(show_artisan_view))
         .with_state(state);
 
-    let listener = tokio::net::TcpListener::bind("0.0.0.0:3000")
+    let listener = tokio::net::TcpListener::bind("0.0.0.0:80")
         .await
-        .expect("failed to bind to 0.0.0.0:3000");
+        .expect("failed to bind to 0.0.0.0:80");
 
-    println!("Web frontend running at http://localhost:3000/order");
+    println!("Web frontend running at http://localhost:80/order");
 
     axum::serve(listener, app).await.expect("server error");
 }
