@@ -1,3 +1,24 @@
+
+
+## ⚠️ Current status (important)
+
+This repo is currently a **web-based ordering system**, not an SMS CLI.
+
+### Run (current working system)
+
+cargo run --bin web
+
+Then open:
+
+http://<VPS-IP>/order
+
+---
+
+The SMS CLI described below is **legacy / not wired to the current system**.
+See `docs/NOTE.md` for details.
+
+
+
 # 🥖 Sourdough Order CLI
 
 A lightweight CLI tool written in Rust to send SMS updates for bakery orders using the [46elks API](https://46elks.se).  
