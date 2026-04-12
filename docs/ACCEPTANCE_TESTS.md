@@ -6,7 +6,7 @@ Each test case below describes a scenario that must pass for the CLI to be consi
 
 ## ✅ AT-001: Load and Display Today's Orders
 
-**Given** a file `src/orders.json`  
+**Given** a file `orders.json`  
 **And** it contains at least one order with today's date (`pickup_date == 2025-06-22`)  
 **When** the user runs:  
 ```bash

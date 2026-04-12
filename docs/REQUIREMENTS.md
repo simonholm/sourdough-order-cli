@@ -7,7 +7,7 @@
 
 ### FR2 – Load JSON Order Data
 - Orders must be read from a specified JSON file (e.g., `orders.json`).
-- File path should be configurable or default to a known location (e.g., `src/orders.json`).
+- File path should be configurable or default to a known location (e.g., `orders.json`).
 
 ### FR3 – Filter by Status
 - Users must be able to filter orders by status (e.g., `pending`, `completed`, `cancelled`).
@@ -50,4 +50,3 @@
 ---
 
 *Last updated: 2025-06-22*
-
